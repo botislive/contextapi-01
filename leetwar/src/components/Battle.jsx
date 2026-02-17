@@ -2,6 +2,7 @@ import { useState } from 'react'
 import BattleCard from './BattleCard'
 import fetchInfo from '../utils/fetchInfo'
 import fetchResult from '../utils/fetchResults'
+import ResultCrd from './ResultCrd'
 const Battle = () => {
     const [username1, setUsername1] = useState('')
     const [username2, setUsername2] = useState('')
@@ -9,6 +10,7 @@ const Battle = () => {
     const[data1, setData1] = useState(null)
     const[data2, setData2] = useState(null)
     const[showResults, setShowResults] = useState(false)
+    const[result, setResult] = useState(null)
 
 const battleHandler = async () => {
     if (!username1 || !username2) {
@@ -23,6 +25,7 @@ const battleHandler = async () => {
         setStartBattle(true)
 
          const result = await fetchResult(username1, username2) 
+         setResult(result)
          console.log(result)
          setShowResults(true) 
            
@@ -65,6 +68,10 @@ const battleHandler = async () => {
                 {startBattle && <BattleCard  username={username1} userdata={data1} />}
                 {startBattle && <BattleCard  username={username2} userdata={data2} />}
             </div>
+
+               {startBattle? <div>
+                  {showResults? <ResultCrd result={result} username1={username1} username2={username2}/> : <p>Calculating Results...</p>}             
+               </div>: <p>Enter Usernames and Start Battle</p>}
 
     </div>
   )
