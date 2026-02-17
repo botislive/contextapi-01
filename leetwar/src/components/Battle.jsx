@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import BattleCard from './BattleCard'
 import fetchInfo from '../utils/fetchInfo'
+import fetchResult from '../utils/fetchResults'
 const Battle = () => {
     const [username1, setUsername1] = useState('')
     const [username2, setUsername2] = useState('')
     const [startBattle, setStartBattle] = useState(false)
     const[data1, setData1] = useState(null)
     const[data2, setData2] = useState(null)
+    const[showResults, setShowResults] = useState(false)
 
 const battleHandler = async () => {
     if (!username1 || !username2) {
@@ -20,7 +22,14 @@ const battleHandler = async () => {
         setData2(userdata2)
         setStartBattle(true)
 
-    } catch {
+         const result = await fetchResult(username1, username2) 
+         console.log(result)
+         setShowResults(true) 
+           
+                
+        }
+
+     catch {
         alert("Error fetching users")
     }
 }
